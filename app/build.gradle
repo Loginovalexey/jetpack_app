@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk Config.compile_sdk
+
+    defaultConfig {
+        applicationId Config.application_id
+        minSdk Config.min_sdk
+        targetSdk Config.target_sdk
+        versionCode Releases.version_code
+        versionName Releases.version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility Config.java_version
+        targetCompatibility Config.java_version
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Versions.compose_version
+        kotlinCompilerVersion Versions.compose_kotlin_compiler_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation Design.appcompat
+    implementation Design.material
+
+    implementation Kotlin.core
+    implementation Kotlin.lifecycle
+
+    implementation Compose.ui
+    implementation Compose.material
+    implementation Compose.tooling_preview
+    implementation Compose.activity
+
+    //noinspection GradleDynamicVersion
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.ext_junit
+    androidTestImplementation TestImpl.espresso
+    androidTestImplementation TestImpl.ui_test_jUnit
+
+    debugImplementation Debug.ui_tooling
+}
